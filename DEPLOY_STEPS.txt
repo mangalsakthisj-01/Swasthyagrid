@@ -1,0 +1,29 @@
+SWASTHYAGRID — QUICK DEPLOY STEPS
+=================================
+
+OPTION A — Streamlit Community Cloud (easiest: frontend + backend in one service)
+1. Extract this ZIP.
+2. Upload the CONTENTS of the extracted folder into a GitHub repository.
+3. Open https://share.streamlit.io and sign in with GitHub.
+4. Select Create app -> select your repo and branch -> Main file path: app.py -> Deploy.
+5. For a DEMO ONLY, use the demo credentials shown on the sign-in screen.
+6. For public/real use, configure Secrets in Streamlit app settings:
+   APP_ENV = "production"
+   ALLOW_DEMO_LOGIN = false
+   DATABASE_URL = "postgresql+psycopg://USER:PASSWORD@HOST:5432/DB?sslmode=require"
+   BOOTSTRAP_ADMIN_PASSWORD = "a-long-unique-password-at-least-10-characters"
+   TOKEN_SECRET = "a-long-random-secret"
+   Add GROQ_API_KEY or GEMINI_API_KEY only if using an AI provider.
+7. Provision PostgreSQL first and replace the sample DATABASE_URL. Do not use local SQLite for durable cloud data.
+
+OPTION B — Local Windows laptop
+1. Install Python 3.11.
+2. Double-click start.bat.
+3. Open http://localhost:8501.
+
+OPTION C — REST API backend for React/mobile clients
+1. Deploy the project as a separate Python service using Dockerfile.api (or install requirements.txt and run uvicorn backend.api:app --host 0.0.0.0 --port $PORT).
+2. Configure the SAME DATABASE_URL and TOKEN_SECRET on the API service and any Streamlit service that shares its data.
+3. Health: /api/health; API docs: /docs.
+
+Security reminder: the default demo accounts are public, shared demo credentials. Disable demo mode and use a persistent database and unique secrets before public use.
